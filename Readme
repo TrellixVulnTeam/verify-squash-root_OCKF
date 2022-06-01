@@ -1,0 +1,16 @@
+Document setup
+
+/mnt/root: mount before first setup
+
+
+autodetect hook: error, but irrelevant
+
+
+arch linux: presets
+
+TODO:
+setup efibootmgr
+
+
+
+HOOKS=(base systemd secure-squash-root modconf block filesystems keyboard)

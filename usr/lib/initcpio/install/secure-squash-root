@@ -7,6 +7,7 @@ build() {
 	add_dir /overlayroot
 	add_dir /secure-squashfs-tmp/squashroot
 	add_dir /secure-squashfs-tmp/tmpfs
+	add_file "/etc/shadow" # TODO: Remove!
 	add_file "/usr/lib/secure-squash-root/mount_handler"
 	add_module dm_mod
 	add_module dm_verity
