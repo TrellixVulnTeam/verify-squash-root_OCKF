@@ -35,6 +35,8 @@ def run_prog(cmd: [str], expect_returncode: int = 0) -> Tuple[bytes, bytes]:
                             stderr=subprocess.PIPE)
     result = proc.communicate()
     if proc.returncode != expect_returncode:
+        print(result[0].decode().replace("\\n", "\n"))
+        print(result[1].decode().replace("\\n", "\n"))
         raise ChildProcessError([cmd, result])
     return result
 
@@ -291,6 +293,7 @@ def create_image_and_sign_kernel(config: Config,
 
             out_dir = os.path.join(efi_partition, "EFI", efi_dirname)
             out = os.path.join(out_dir, "{}.efi".format(base_name))
+            print("out_dir", out_dir)
             build_and_sign_kernel(config, vmlinuz, initramfs, use_slot,
                                   root_hash, out)
             out_tmpfs = os.path.join(out_dir, "{}_tmpfs.efi".format(base_name))
@@ -310,10 +313,6 @@ def main():
     run_prog(["mkdir", "-p", TMPDIR])
     with RunProgAndCleanup(tmp_mount, tmp_umount):
         create_image_and_sign_kernel(config, distribution)
-
-
-def test():
-    run_prog(["dash", "-c", "exit 3"], 3)
 
 
 if __name__ == "__main__":

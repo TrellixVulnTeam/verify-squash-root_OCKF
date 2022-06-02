@@ -28,3 +28,4 @@ git clone git@github.com:brandsimon/secure-squash-root.git
 python3 -m venv .venv
 .venv/bin/pip install -e . --no-deps
 ```
+.venv/bin/python -m unittest tests/unit/tests.py

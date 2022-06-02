@@ -1,0 +1,3 @@
+
+    extras_require={
+        'dev': ['pycodestyle', 'pyflakes'],

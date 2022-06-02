@@ -1,0 +1,17 @@
+Document setup
+
+/mnt/root: mount before first setup
+
+Known issues
+autodetect hook: error, but irrelevant
+
+TODO:
+setup efibootmgr
+
+HOOKS=(base systemd secure-squash-root modconf block filesystems keyboard)
+
+
+add integration test for mkinitcpio presets
+
+
+file corruption

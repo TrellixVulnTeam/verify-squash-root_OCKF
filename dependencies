@@ -1,0 +1,6 @@
+squashfs-tools
+
+shellcheck, flake8
+python static analysis
+
+fsck
