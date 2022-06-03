@@ -35,8 +35,9 @@ class ArchLinuxConfigTest(unittest.TestCase):
                          "/usr/lib/modules/5.17.2-arch/vmlinuz")
 
     def test__build_initramfs_with_microcode(self):
+        # Just let it run and override exec_binary for mkinitcpio to check
+        # file content, check merged initramfs
         pass
-        # TODO
 
     @mock.patch("secure_squash_root.distributions.arch.os.listdir")
     def test__list_kernels(self, mock):

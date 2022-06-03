@@ -7,5 +7,7 @@ def exec_binary(cmd: [str], expect_returncode: int = 0) -> Tuple[bytes, bytes]:
                             stderr=subprocess.PIPE)
     result = proc.communicate()
     if proc.returncode != expect_returncode:
+        # print(result[0].decode().replace("\\n", "\n"))
+        # print(result[1].decode().replace("\\n", "\n"))
         raise ChildProcessError([cmd, result])
     return result

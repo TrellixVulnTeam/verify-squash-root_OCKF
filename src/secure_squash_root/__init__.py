@@ -16,6 +16,7 @@ DEFAULT_CONFIG = {
     "CMDLINE": "root=UUID=a6a7b817-0979-46f2-a6f7-dfa191f9fea4 rw",
     "EFI_STUB": "/usr/lib/systemd/boot/efi/linuxx64.efi.stub",
     "SECURE_BOOT_KEYS": "/root/securebootkeys",
+    # TODO: decrypt
     "EXCLUDE_DIRS": "/home,/opt,/srv,/var/!(lib)",
     "EFI_PARTITION": "/boot/efi",
     "ROOT_MOUNT": "/mnt/root",
@@ -59,8 +60,10 @@ def build_and_sign_kernel(config: Config, vmlinuz: str, initramfs: str,
         if efi.file_matches_slot(out, slot):
             # if backup slot is booted, dont override it
             os.unlink(out)
+            print("Dont delete old")
         else:
             os.rename(out, "{}.bak".format(out))
+            # bak is a shitty name!
     shutil.move(tmp_efi_file, out)
 
 
@@ -100,6 +103,7 @@ def create_image_and_sign_kernel(config: Config,
 
             out_dir = os.path.join(efi_partition, "EFI", efi_dirname)
             out = os.path.join(out_dir, "{}.efi".format(base_name))
+            print("out_dir", out_dir)
             build_and_sign_kernel(config, vmlinuz, initramfs, use_slot,
                                   root_hash, out)
             out_tmpfs = os.path.join(out_dir, "{}_tmpfs.efi".format(base_name))
@@ -112,10 +116,12 @@ def main():
     config = Config({})
     distribution = ArchLinuxConfig()
     os.umask(0o077)
+    # logger
 
     tmp_mount = ["mount", "-t", "tmpfs", "-o",
                  "mode=0700,uid=0,gid=0", "tmpfs", TMPDIR]
     tmp_umount = ["umount", "-f", "-R", TMPDIR]
+    # Error if exists, remove: remove -p
     exec_binary(["mkdir", "-p", TMPDIR])
     with RunProgAndCleanup(tmp_mount, tmp_umount):
         create_image_and_sign_kernel(config, distribution)
