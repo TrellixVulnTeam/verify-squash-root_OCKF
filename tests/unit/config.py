@@ -46,8 +46,7 @@ class ConfigTest(unittest.TestCase):
                 pm = mock.Mock()
                 pm.resolve.return_value = \
                     root_mock if name == "/opt/root" else efi_mock
-                pm.__str__ = mock.Mock()
-                pm.__str__.return_value = name
+                pm.__str__ = mock.Mock(return_value=name)
                 return pm
 
             path_mock.side_effect = ret_mock
