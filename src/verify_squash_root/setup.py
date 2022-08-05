@@ -34,14 +34,15 @@ def add_kernels_to_uefi(config: ConfigParser, distribution: DistributionConfig,
 def setup_systemd_boot(config: ConfigParser,
                        distribution: DistributionConfig) -> None:
     exec_binary(["bootctl", "install"])
+    efi_partition = Path(config["DEFAULT"]["EFI_PARTITION"])
     boot_efi = Path("/usr/lib/systemd/boot/efi/systemd-bootx64.efi")
     efi.sign(KEY_DIR, boot_efi,
-             Path("/boot/efi/EFI/systemd/systemd-bootx64.efi"))
-    efi.sign(KEY_DIR, boot_efi, Path("/boot/efi/EFI/BOOT/BOOTX64.EFI"))
+             efi_partition / "EFI/systemd/systemd-bootx64.efi")
+    efi.sign(KEY_DIR, boot_efi, efi_partition / "EFI/BOOT/BOOTX64.EFI")
 
     efi_dirname = distribution.efi_dirname()
     out_dir = EFI_PATH / efi_dirname
-    entries_dir = Path(config["DEFAULT"]["EFI_PARTITION"]) / "loader/entries"
+    entries_dir = efi_partition / "loader/entries"
 
     for (kernel, preset, base_name, label) in \
             iterate_non_ignored_kernel_variants(config, distribution):
