@@ -38,7 +38,7 @@ class MainTest(unittest.TestCase):
                            "a",
                            None)
             self.assertEqual(
-                list(all_mocks.mock_calls),
+                all_mocks.mock_calls,
                 [call.dest.exists(),
                  call.efi.file_matches_slot_or_is_broken(
                      all_mocks.dest, "a"),
