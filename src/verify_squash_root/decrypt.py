@@ -1,3 +1,4 @@
+import logging
 import re
 import shutil
 import tarfile
@@ -16,6 +17,7 @@ def format_cmd(cmd: str, file: Path) -> List[str]:
 
 
 def decrypt_secure_boot_keys(config: ConfigParser) -> None:
+    logging.info("Decrypting secure boot keys")
     cmd = config["DEFAULT"]["DECRYPT_SECURE_BOOT_KEYS_CMD"]
     cmd_arr = format_cmd(cmd, TAR_FILE)
     KEY_DIR.mkdir()
